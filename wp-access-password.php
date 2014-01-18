@@ -165,6 +165,8 @@ class WP_Access_Password {
 			require_once ABSPATH . 'wp-includes/class-phpass.php';
 			$hasher = new PasswordHash( 8, true );
 
+			$blog_id = get_current_blog_id();
+
 			/**
 			 * Filter the life span of the access password cookie.
 			 *
@@ -174,7 +176,7 @@ class WP_Access_Password {
 			 * @param int $expires The expiry time, as passed to setcookie().
 			 */
 			$expire = apply_filters( 'wp_access_password_expires', time() + 10 * DAY_IN_SECONDS );
-			setcookie( 'wp-accesspwd_' . COOKIEHASH, $hasher->HashPassword( wp_unslash( $_POST['access-pwd'] ) ), $expire, COOKIEPATH );
+			setcookie( "wp-accesspwd_{$blog_id}_" . COOKIEHASH, $hasher->HashPassword( wp_unslash( $_POST['access-pwd'] ) ), $expire, COOKIEPATH );
 
 			wp_safe_redirect( $redirect_to );
 			exit();
@@ -286,7 +288,9 @@ class WP_Access_Password {
 			return false;
 		}
 
-		if ( ! isset( $_COOKIE['wp-accesspwd_' . COOKIEHASH] ) ) {
+		$blog_id = get_current_blog_id();
+
+		if ( ! isset( $_COOKIE["wp-accesspwd_{$blog_id}_" . COOKIEHASH] ) ) {
 			return false;
 		}
 
