@@ -297,7 +297,7 @@ class WP_Access_Password {
 		require_once ABSPATH . 'wp-includes/class-phpass.php';
 		$hasher = new PasswordHash( 8, true );
 
-		$hash = wp_unslash( $_COOKIE[ 'wp-accesspwd_' . COOKIEHASH ] );
+		$hash = wp_unslash( $_COOKIE[ "wp-accesspwd_{$blog_id}_" . COOKIEHASH ] );
 		if ( 0 !== strpos( $hash, '$P$B' ) ) {
 			return false;
 		}
