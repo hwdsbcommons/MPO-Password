@@ -70,15 +70,23 @@ class WP_Access_Password {
 	 * form.
 	 */
 	public function add_password_field() {
+		if ( ! is_admin() ) {
+			$visibility = '';
+			$password   = '';
+		} else {
+			$visibility = self::$visibility;
+			$password   = self::$password;
+		}
+
 	?>
 		<br />
 		<label class="checkbox" for="wp-blog-privacy-pwd">
-			<input id="wp-blog-privacy-pwd" type="radio" name="blog_public" value="-4" <?php checked( self::$visibility, -4 ); ?> />
+			<input id="wp-blog-privacy-pwd" type="radio" name="blog_public" value="-4" <?php checked( $visibility, -4 ); ?> />
 			<?php _e( 'All registered users can view the site without a password.  Non-logged-in users can only access the site with the following password:', 'wp-access-pwd' ); ?>
 		</label>
 
 		<label class="checkbox" for="blog_access_pwd">
-			<input type="text" id="blog_access_pwd" name="blog_access_pwd" class="regular-text" value="<?php echo strip_tags( self::$password ); ?>"  />
+			<input type="text" id="blog_access_pwd" name="blog_access_pwd" class="regular-text" value="<?php echo strip_tags( $password ); ?>"  />
 		</label>
 	<?php
 	}
