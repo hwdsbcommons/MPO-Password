@@ -32,7 +32,7 @@ class WP_Access_Password {
 	 */
 	public function __construct() {
 		self::$visibility = get_option( 'blog_public' );
-		self::$password   = get_option( 'blog_access_pwd' );
+		self::$password   = $this->get_password();
 
 		$this->setup_hooks();
 	}
@@ -279,6 +279,27 @@ class WP_Access_Password {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Get our access password.
+	 *
+	 * If a password doesn't exist, try to look for the password from WPMUDev's
+	 * Sitewide Privacy Options plugin as a fallback.
+	 *
+	 * @return string
+	 */
+	protected function get_password() {
+		$password = get_option( 'blog_access_pwd' );
+
+		// support password from WPMUDev's Sitewide Privacy Options plugin as a
+		// fallback
+		if ( empty( $password ) ) {
+			$spo_options = get_option( 'spo_settings' );
+			$password    = isset( $spo_options['blog_pass'] ) ? $spo_options['blog_pass'] : '';
+		}
+
+		return $password;
 	}
 
 	/** STATIC METHODS *****************************************************/
