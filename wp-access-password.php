@@ -94,6 +94,7 @@ class WP_Access_Password {
 			jQuery("form").submit(function(e){
 				if ( jQuery("input[name=blog_public]:checked").val() == '-4' && jQuery("#blog_access_pwd").val() == '' ) {
 					jQuery( "<span>" ).css( "color", "red" ).css( "paddingLeft", ".5em" ).html( "<?php _e( 'Please enter a password in order to enable password protection.', 'wp-access-pwd' ); ?>" ).insertAfter( "#blog_access_pwd" );
+					jQuery( "#blog_access_pwd" ).focus();
 					return false;
 				}
 			});
