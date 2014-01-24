@@ -88,6 +88,17 @@ class WP_Access_Password {
 		<label class="checkbox" for="blog_access_pwd">
 			<input type="text" id="blog_access_pwd" name="blog_access_pwd" class="regular-text" value="<?php echo strip_tags( $password ); ?>"  />
 		</label>
+
+		<script type="text/javascript">
+		jQuery(function(){
+			jQuery("form").submit(function(e){
+				if ( jQuery("input[name=blog_public]:checked").val() == '-4' && jQuery("#blog_access_pwd").val() == '' ) {
+					jQuery( "<span>" ).css( "color", "red" ).css( "paddingLeft", ".5em" ).html( "<?php _e( 'Please enter a password in order to enable password protection.', 'wp-access-pwd' ); ?>" ).insertAfter( "#blog_access_pwd" );
+					return false;
+				}
+			});
+		});
+		</script>
 	<?php
 	}
 
